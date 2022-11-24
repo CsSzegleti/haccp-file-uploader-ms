@@ -3,7 +3,6 @@ package io.c0dr.fileuploader.controller.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.c0dr.fileuploader.service.exception.SecurityConstraintException;
 import io.c0dr.fileuploader.service.exception.WriteException;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice(assignableTypes = {FileUploaderController.class})
 @Slf4j

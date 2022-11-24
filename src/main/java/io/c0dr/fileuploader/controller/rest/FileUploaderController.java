@@ -18,9 +18,6 @@ import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 
@@ -55,10 +55,10 @@ public class FileUploaderController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class)) })
     })
-    @Operation(summary = "File feltöltés")
+    @Operation(summary = "Upload file")
     @PostMapping(value = PathConstants.V1_FILE_UPLOAD, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
     public HttpStatus uploadFile(
-            @Parameter(description = "A valós file", style = ParameterStyle.FORM)
+            @Parameter(description = "File to upload", style = ParameterStyle.FORM)
             @NotNull(message = "error.field.file.null")  @RequestPart(value = "file")
             MultipartFile file,
 
@@ -69,7 +69,7 @@ public class FileUploaderController {
             @RequestHeader(value = HeaderNames.CORRELATION_ID) String correlationId,
             @RequestHeader(name = HeaderNames.USER_NAME) String user,
 
-            @Parameter(description = "File titkosításhoz szükséges adatok",
+            @Parameter(description = "Metadata",
                     style = ParameterStyle.FORM,
                     content = @Content(
                             encoding = @Encoding(contentType = MediaType.APPLICATION_JSON_VALUE)),

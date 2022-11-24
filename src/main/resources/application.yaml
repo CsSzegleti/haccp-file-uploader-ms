@@ -1,1 +1,71 @@
+spring:
+  application:
+    name: fileuploader
+  main:
+    banner-mode: off
+  jmx:
+    enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    template:
+      mandatory: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 512KB
+
+management:
+  server:
+    port: 9000
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          enabled: true
+          include: rabbit
+        liveness:
+          enabled: true
+          include: rabbit
+
+
+server:
+  port: 8888
+  servlet:
+    context-path: /upload
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+file:
+  folder-uri:
+    tmp: /tmp/tmp
+    final: /tmp/final
+  name:
+    max-length: 200
+
+amqp:
+  file-upload:
+    queue:
+      request: file.upload.request
+      response: file.upload.response
+  file-manager:
+    queue:
+      request: fm-request
+
+logging.log_root: /tmp
 
