@@ -22,16 +22,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
@@ -62,18 +58,10 @@ public class FileUploaderController {
             @NotNull(message = "error.field.file.null")  @RequestPart(value = "file")
             MultipartFile file,
 
-            @Parameter(description = "Correlation ID")
-            @NotNull(message = "error.field.file.null")
-            @NotBlank(message = "error.field.file.blank")
-            @NotEmpty(message = "error.field.file.empty")
-            @RequestHeader(value = HeaderNames.CORRELATION_ID) String correlationId,
-            @RequestHeader(name = HeaderNames.USER_NAME) String user,
-
             @Parameter(description = "Metadata",
                     style = ParameterStyle.FORM,
                     content = @Content(
-                            encoding = @Encoding(contentType = MediaType.APPLICATION_JSON_VALUE)),
-                    ref = "#/components/schemas/ExtraData")
+                            encoding = @Encoding(contentType = MediaType.APPLICATION_JSON_VALUE)))
             @RequestPart(value = "extraData", required = false)
             ExtraData extraData
     ) throws WriteException, SecurityConstraintException, IOException {

@@ -7,9 +7,9 @@ spring:
     enabled: true
   rabbitmq:
     host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    port: 5671
+    username: haccp
+    password: MySecretPassword
     template:
       mandatory: true
 
@@ -53,8 +53,8 @@ springdoc:
 
 file:
   folder-uri:
-    tmp: /tmp/tmp
-    final: /tmp/final
+    tmp: ${HOME}/tmp/tmp
+    final: ${HOME}/tmp/final
   name:
     max-length: 200
 
