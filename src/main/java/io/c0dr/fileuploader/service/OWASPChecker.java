@@ -8,8 +8,7 @@ import io.c0dr.fileuploader.service.exception.Severity;
 import io.c0dr.fileuploader.service.exception.WriteException;
 import io.c0dr.fileuploader.service.model.Allowed;
 import io.c0dr.fileuploader.service.model.DFMUploadResponseBD;
-import io.c0dr.fileuploader.service.model.DocFileModel;
-import io.c0dr.fileuploader.service.model.PasswordProtection;
+import io.c0dr.fileuploader.service.model.FileModel;
 import io.c0dr.fileuploader.service.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,12 +75,12 @@ public class OWASPChecker {
         return String.format("%s-%s.%s", UUID.randomUUID(), Instant.now().toEpochMilli(), getExtension(fileName));
     }
 
-    public DocFileModel fillDocFileModel(Map<String, String> metadata, File file)
+    public FileModel fillDocFileModel(Map<String, String> metadata, File file)
             throws IOException {
-        return DocFileModel.builder()
+        return FileModel.builder()
                 .fileName(file.getName())
                 .fileSize(file.length())
-                .documentHash(com.google.common.io.Files.asByteSource(file).hash(Hashing.sha256()).toString())
+                .fileHash(com.google.common.io.Files.asByteSource(file).hash(Hashing.sha256()).toString())
                 .uploadedAt(Instant.now())
                 .relativePath(file.getName())
                 .metaData(metadata)

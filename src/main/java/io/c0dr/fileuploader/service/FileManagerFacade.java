@@ -1,11 +1,11 @@
 package io.c0dr.fileuploader.service;
 
 
-import io.c0dr.fileuploader.client.DocumentManagerAMQPClient;
+import io.c0dr.fileuploader.client.FileManagerAMQPClient;
 import io.c0dr.fileuploader.service.exception.SecurityConstraintException;
 import io.c0dr.fileuploader.service.exception.WriteException;
 import io.c0dr.fileuploader.service.model.DFMUploadResponseBD;
-import io.c0dr.fileuploader.service.model.DocFileModel;
+import io.c0dr.fileuploader.service.model.FileModel;
 import io.c0dr.fileuploader.service.model.FileModelBD;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class FileManagerFacade {
     }
 
     @Autowired
-    private DocumentManagerAMQPClient messageSender;
+    private FileManagerAMQPClient messageSender;
 
     @Autowired
     private OWASPChecker owaspChecker;
@@ -54,11 +54,11 @@ public class FileManagerFacade {
         File file = owaspChecker.saveToTmpLocation(fileModelBD.getData(), fileModelBD.getOriginalFileName());
 
         HashMap<String, String> metadata = fileModelBD.getExtraData() == null ? null : fileModelBD.getExtraData().getData();
-        DocFileModel docFileModel = owaspChecker.fillDocFileModel(metadata, file);
+        FileModel fileModel = owaspChecker.fillDocFileModel(metadata, file);
 
-        docFileModel.setFileName(fileModelBD.getOriginalFileName());
-        docFileModel.setUploader(fileModelBD.getUploader());
-        docFileModel.setUploadIp(fileModelBD.getUploadIp());
+        fileModel.setFileName(fileModelBD.getOriginalFileName());
+        fileModel.setUploader(fileModelBD.getUploader());
+        fileModel.setUploadIp(fileModelBD.getUploadIp());
 
         try {
             owaspChecker.checkFile(new File(file.toURI()));
@@ -67,7 +67,7 @@ public class FileManagerFacade {
             owaspChecker.deleteFile(file);
         }
 
-        messageSender.sendRabbitMessage(docFileModel, fileModelBD);
+        messageSender.sendRabbitMessage(fileModel, fileModelBD);
     }
 
     public void manageFileUploadResponse(DFMUploadResponseBD response) {

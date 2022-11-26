@@ -13,14 +13,16 @@ import java.util.Map;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class DocFileModel implements Serializable {
+public class FileModel implements Serializable {
+    Integer id;
+
     String fileName;
 
     String fileExtension;
 
     Long fileSize;
 
-    String documentHash;
+    String fileHash;
 
     Instant uploadedAt;
 
@@ -30,17 +32,7 @@ public class DocFileModel implements Serializable {
 
     Boolean isVirusCheck;
 
-    Instant examinedAt;
-
-    Integer examinedBy;
-
-    Boolean isApproved;
-
-    String rejectReason;
-
     String relativePath;
-
-    PasswordProtection passwordProtection;
 
     Map<String, String> metaData;
 
